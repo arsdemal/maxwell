@@ -52,7 +52,7 @@ void Widget::start_exp()
 {
     if( !f_restart){
 
-        if (MAXWELL) {
+        if (!MAXWELL) {
             scene = new maxwell_scene;
             ui->graphicsView->fitInView(scene->sceneRect());
             ui->graphicsView->setScene(scene);
