@@ -1,8 +1,13 @@
 #include "molecule.h"
-#include "maxvell_scene.h"
+#include "test_scene.h"
 #include "widget.h"
 
 QList <molecule*> matrix[STEP_MATRIX][STEP_MATRIX];
+
+void molecule::changeColor(int color)
+{
+    painter.setBrush(QBrush(QColor(0,0,color)));
+}
 
 molecule::molecule(double molx, double moly, double molsx, double molsy, double mrad, QList <molecule*> (*m)[STEP_MATRIX][STEP_MATRIX])
 {
@@ -30,8 +35,24 @@ QRectF molecule::boundingRect() const
 
 void molecule::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    //QPen pen(Qt::red,3);
+    //painter->setPen(pen);
+
+    QBrush brush;
+    brush.setStyle(Qt::SolidPattern);
+
+    if (sqrt(pow(m_speed_x,2)+pow(m_speed_y,2))>3) {
+        brush.setColor(Qt::red);
+    } else {
+        brush.setColor(Qt::blue);
+    }
+
+    painter->setBrush(brush);
+
+    //this->painter = *painter;
     painter->drawEllipse( -m_radius, -m_radius,
                           2*m_radius, 2*m_radius);
+
 }
 
 inline double my_abs(double a)

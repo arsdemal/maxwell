@@ -11,12 +11,12 @@
 #define MAX_X 200
 #define MAX_Y 200
 
-class maxwell_scene: public QGraphicsScene
+class test_scene: public QGraphicsScene
 {
 
 public:
-    maxwell_scene();
-    ~maxwell_scene();
+    test_scene();
+    ~test_scene();
     QTimer m_t;
 };
 

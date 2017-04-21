@@ -4,11 +4,11 @@
 #include <QGraphicsScene>
 #include <QTimer>
 
-class trap_of_maxvell_scene
+class demon_maxvell_scene: public QGraphicsScene
 {
 public:
-    trap_of_maxvell_scene();
-    ~trap_of_maxvell_scene();
+    demon_maxvell_scene();
+    ~demon_maxvell_scene();
     QTimer clk;
 };
 

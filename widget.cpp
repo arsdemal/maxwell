@@ -29,10 +29,7 @@ Widget::Widget(QWidget *parent) :
 
     connect(ui->startButton,SIGNAL(clicked()),this,SLOT(start_exp()));
     connect(ui->stopButton,SIGNAL(clicked()),this,SLOT(stop_exp()));
-    connect( &g_t, SIGNAL(timeout()),this, SLOT(set_graph()));
     connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(close()));
-
-    g_t.setInterval(20);
 
     flag = 0;
     f_restart = 0;
@@ -52,12 +49,15 @@ void Widget::start_exp()
 {
     if( !f_restart){
 
+        scene = new test_scene;
+        ui->graphicsView->fitInView(scene->sceneRect());
+        ui->graphicsView->setScene(scene);
+        ui->graphicsView->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+        ui->graphicsView->setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+
         if (!MAXWELL) {
-            scene = new maxwell_scene;
-            ui->graphicsView->fitInView(scene->sceneRect());
-            ui->graphicsView->setScene(scene);
-            ui->graphicsView->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
-            ui->graphicsView->setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+            connect( &g_t, SIGNAL(timeout()),this, SLOT(set_graph()));
+            g_t.setInterval(20);
 
             scene_g = new graph_scene;
             ui->graphicsView_2->setScene(scene_g);
@@ -72,8 +72,8 @@ void Widget::start_exp()
             u0 = ui->lineEdit_2->text().toInt(&ok, 10);
 
             int n = count_mol;
-            if( n > 200)
-                n = 200;
+            //if( n > 200)
+            //    n = 200;
             int j = -8;
             while( n > 0)
             {
@@ -86,8 +86,10 @@ void Widget::start_exp()
                     m[b->lp_x][b->lp_y].append(b);
                     scene->addItem(b);
                     n--;
-                    if( n < 1)
+                    if( n < 1) {
+                        //b->setPen;
                         break;
+                    }
                 }
                 j++;
             }
@@ -109,17 +111,23 @@ void Widget::start_exp()
             scene_g->addLine(290,5,300,0);
             scene_g->addLine(290,-5,300,0);
             QGraphicsTextItem *text1 = scene_g->addText(QString("V, speed"));
-            QGraphicsTextItem *text2 = scene_g->addText(QString("N, count mol"));
+            QGraphicsTextItem *text2 = scene_g->addText(QString("N, count"));
             text1->setPos(260,0);
             text2->setPos(-70,-210);
             g_t.start();
             ui->startButton->setText("Restart");
             f_restart = 1;
+        } else {
+            ui->graphicsView->fitInView(scene->sceneRect());
+            ui->graphicsView->setScene(scene);
+            ui->graphicsView->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+            ui->graphicsView->setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+
         }
     }
     else
     {
-        scene->~maxwell_scene();
+        scene->~test_scene();
         scene_g->~graph_scene();
         m_list.clear();
         for(int i = 0; i < STEP_MATRIX; i++)

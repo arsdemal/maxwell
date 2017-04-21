@@ -17,15 +17,13 @@ SOURCES += main.cpp\
     graph_scene.cpp \
     post.cpp \
     molecule.cpp \
-    maxwell_scene.cpp \
-    trap_of_maxvell_scene.cpp
+    test_scene.cpp
 
 HEADERS  += widget.h \
     graph_scene.h \
     post.h \
     molecule.h \
-    maxvell_scene.h \
-    trap_of_maxvell_scene.h
+    test_scene.h
 
 FORMS    += widget.ui
 

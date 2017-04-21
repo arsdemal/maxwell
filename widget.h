@@ -5,9 +5,10 @@
 #include <QTime>
 #include <QList>
 #include <QPushButton>
-#include "maxvell_scene.h"
+#include "test_scene.h"
 #include "molecule.h"
 #include "graph_scene.h"
+#include "demon_maxvell_scene.h"
 
 extern QList<molecule*> m_list;
 
@@ -38,7 +39,7 @@ public slots:
 
 private:
     Ui::Widget *ui;
-    maxwell_scene *scene;
+    test_scene *scene;
     graph_scene* scene_g;
 };
 

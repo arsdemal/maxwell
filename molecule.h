@@ -23,7 +23,7 @@ private:
     double m_x;
     double m_y;
     double m_radius;
-
+    QPainter painter;
 
 public:
     molecule(double molx, double moly, double molsx, double molsy, double mrad, QList<molecule *> (*m)[STEP_MATRIX][STEP_MATRIX]);
@@ -33,6 +33,8 @@ public:
     void advance(int phase);
     bool my_collision(molecule *b);
     void mac(molecule *b);
+    void changeColor(int color);
+    void setQPainter(QPainter painter);
 };
 
 #endif // MOL_H
