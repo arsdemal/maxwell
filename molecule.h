@@ -18,12 +18,12 @@ public:
     double m_speed_y;
     int lp_x;
     int lp_y;
-    //QList <mol*> inf_col; // информация о столкновениях с другими молекулами
+    static double maxSpeed;
 private:
     double m_x;
     double m_y;
     double m_radius;
-    QPainter painter;
+
 
 public:
     molecule(double molx, double moly, double molsx, double molsy, double mrad, QList<molecule *> (*m)[STEP_MATRIX][STEP_MATRIX]);
@@ -33,8 +33,8 @@ public:
     void advance(int phase);
     bool my_collision(molecule *b);
     void mac(molecule *b);
-    void changeColor(int color);
-    void setQPainter(QPainter painter);
+    static void setMaxSpeed(double speed);
+    static double getMaxSpeed();
 };
 
 #endif // MOL_H

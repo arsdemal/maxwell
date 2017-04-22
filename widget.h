@@ -30,12 +30,17 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
+    void checkMod();
+    void maxwellMod();
+    void demon_maxwellMod();
 
 public slots:
     void start_exp();
     void stop_exp();
     void set_graph();
     void continue_exp();
+    void incMod();
+    void decMod();
 
 private:
     Ui::Widget *ui;

@@ -3,10 +3,11 @@
 #include "widget.h"
 
 QList <molecule*> matrix[STEP_MATRIX][STEP_MATRIX];
+double molecule::maxSpeed;
 
-void molecule::changeColor(int color)
+double molecule::getMaxSpeed()
 {
-    painter.setBrush(QBrush(QColor(0,0,color)));
+    return maxSpeed;
 }
 
 molecule::molecule(double molx, double moly, double molsx, double molsy, double mrad, QList <molecule*> (*m)[STEP_MATRIX][STEP_MATRIX])
@@ -35,30 +36,29 @@ QRectF molecule::boundingRect() const
 
 void molecule::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //QPen pen(Qt::red,3);
-    //painter->setPen(pen);
-
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
 
-    if (sqrt(pow(m_speed_x,2)+pow(m_speed_y,2))>3) {
-        brush.setColor(Qt::red);
+    double speed = sqrt(pow(m_speed_x,2)+pow(m_speed_y,2));
+
+    if (speed>maxSpeed/2) {
+        if (speed<maxSpeed) {
+            brush.setColor(QColor(255,0,255*2*(maxSpeed-speed)/maxSpeed,255));
+        } else {
+            brush.setColor(QColor(255,0,0,255));
+        }
     } else {
-        brush.setColor(Qt::blue);
+        brush.setColor(QColor(255*2*speed/maxSpeed,0,255,255));
     }
 
     painter->setBrush(brush);
-
-    //this->painter = *painter;
     painter->drawEllipse( -m_radius, -m_radius,
                           2*m_radius, 2*m_radius);
-
 }
 
 inline double my_abs(double a)
 {
     return (a > 0) ? a : -a;
-
 }
 
 inline double mul_pair(QPair<double,double> a, QPair<double,double> b)
@@ -102,8 +102,6 @@ inline bool molecule::my_collision(molecule *b){
 
 void molecule::mac(molecule *b)
 {
-    //b->inf_col.append(this);
-
     QPair<double,double> u1, u2;
     QPair<double,double> dir, dir2;
 
@@ -163,9 +161,11 @@ void molecule::mac(molecule *b)
 
     m_x += (1 - a)*m_speed_x;
     m_y += (1 - a)*m_speed_y;
+}
 
-    //b->m_x += (1 - a)*b->m_speed_x;
-    //b->m_y += (1 - a)*b->m_speed_y;
+void molecule::setMaxSpeed(double speed)
+{
+    maxSpeed = speed;
 }
 
 void molecule::advance(int phase)
@@ -173,8 +173,6 @@ void molecule::advance(int phase)
     if(phase == 0) {
         return;
     }
-
-    //inf_col.clear();
 
     int lp_xb = lp_x;
     int lp_yb = lp_y;
